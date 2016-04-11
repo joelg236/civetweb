@@ -256,6 +256,7 @@ add_c_compiler_flag(-Wno-padded)
 add_c_compiler_flag(/Wd4820) # padding
 add_c_compiler_flag(-Wno-unused-macros)
 add_c_compiler_flag(-Wno-format-nonliteral)
+add_c_compiler_flag(-Wno-maybe-uninitialized)
 if (MINGW)
   add_c_compiler_flag(-Wno-format)
 endif()
