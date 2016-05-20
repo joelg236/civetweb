@@ -23,7 +23,7 @@ install(FILES
   COMPONENT c-library)
 
 # Need Windows sockets if available
-find_package(WinSock)
+find_package(WinSock QUIET)
 if (WINSOCK_FOUND)
   target_link_libraries(c-library WINSOCK::WINSOCK)
 endif()

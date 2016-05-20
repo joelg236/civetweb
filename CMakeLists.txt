@@ -1,16 +1,5 @@
 # Determines what CMake APIs we can rely on
 cmake_minimum_required (VERSION 2.8.11)
-if (${CMAKE_VERSION} VERSION_GREATER 3.2.2)
-  cmake_policy(VERSION 3.2.2)
-endif()
-if (${CMAKE_VERSION} VERSION_GREATER 3.1 OR
-    ${CMAKE_VERSION} VERSION_EQUAL 3.1)
-  cmake_policy(SET CMP0054 NEW)
-endif()
-
-# Do not allow in source builds
-set(CMAKE_DISABLE_SOURCE_CHANGES ON)
-set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
 # Make sure we can import out CMake functions
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -52,21 +41,17 @@ option(CIVETWEB_ENABLE_THIRD_PARTY_OUTPUT "Shows the output of third party depen
 set(CIVETWEB_MAX_REQUEST_SIZE 16384 CACHE STRING
   "The largest amount of content bytes allowed in a request")
 set_property(CACHE CIVETWEB_MAX_REQUEST_SIZE PROPERTY VALUE ${CIVETWEB_MAX_REQUEST_SIZE})
-message(STATUS "Max Request Size - ${CIVETWEB_MAX_REQUEST_SIZE}")
 
 # Thread Stack Size
 set(CIVETWEB_THREAD_STACK_SIZE 102400 CACHE STRING
   "The stack size in bytes for each thread created")
 set_property(CACHE CIVETWEB_THREAD_STACK_SIZE PROPERTY VALUE ${CIVETWEB_THREAD_STACK_SIZE})
-message(STATUS "Thread Stack Size - ${CIVETWEB_THREAD_STACK_SIZE}")
 
 # Serve no files from the web server
 option(CIVETWEB_SERVE_NO_FILES "Configures the server to serve no static files" OFF)
-message(STATUS "Serve no static files - ${CIVETWEB_SERVE_NO_FILES}")
 
 # Serve no files from the web server
 option(CIVETWEB_DISABLE_CGI "Disables CGI, so theserver will not execute CGI scripts" OFF)
-message(STATUS "Disable CGI support - ${CIVETWEB_DISABLE_CGI}")
 
 # Disable caching
 option(CIVETWEB_DISABLE_CACHING "Disables caching, so that no timegm is used." OFF)
@@ -74,23 +59,18 @@ message(STATUS "Disable caching support - ${CIVETWEB_DISABLE_CACHING}")
 
 # C++ wrappers
 option(CIVETWEB_ENABLE_CXX "Enables the C++ wrapper library" OFF)
-message(STATUS "C++ wrappers - ${CIVETWEB_ENABLE_CXX}")
 
 # IP Version 6
 option(CIVETWEB_ENABLE_IPV6 "Enables the IP version 6 support" OFF)
-message(STATUS "IP Version 6 - ${CIVETWEB_ENABLE_IPV6}")
 
 # Websocket support
 option(CIVETWEB_ENABLE_WEBSOCKETS "Enable websockets connections" OFF)
-message(STATUS "Websockets support - ${CIVETWEB_ENABLE_WEBSOCKETS}")
 
 # Memory debugging
 option(CIVETWEB_ENABLE_MEMORY_DEBUGGING "Enable the memory debugging features" OFF)
-message(STATUS "Memory Debugging - ${CIVETWEB_ENABLE_MEMORY_DEBUGGING}")
 
 # LUA CGI support
 option(CIVETWEB_ENABLE_LUA "Enable Lua CGIs" OFF)
-message(STATUS "Lua CGI support - ${CIVETWEB_ENABLE_LUA}")
 
 # Allow builds to complete with warnings (do not set -Werror)
 if (LINUX)
@@ -100,15 +80,11 @@ else()
 # CivetWeb Linux support for other systems is in a setup phase.
   option(CIVETWEB_ALLOW_WARNINGS "Do not stop build if there are warnings" ON)
 endif()
-message(STATUS "Build if there are warnings - ${CIVETWEB_ALLOW_WARNINGS}")
 
 # Link to the shared LUA library
 cmake_dependent_option(
   CIVETWEB_ENABLE_LUA_SHARED  "Link to the shared LUA system library" OFF
  CIVETWEB_ENABLE_LUA OFF)
-if (CIVETWEB_ENABLE_LUA)
-  message(STATUS "Linking shared Lua library - ${CIVETWEB_ENABLE_LUA_SHARED}")
-endif()
 
 # Lua Third Party Settings
 if (CIVETWEB_ENABLE_LUA)
@@ -117,7 +93,6 @@ if (CIVETWEB_ENABLE_LUA)
     set(CIVETWEB_LUA_VERSION 5.2.4 CACHE STRING
       "The version of Lua to build and include statically")
     set_property(CACHE CIVETWEB_LUA_VERSION PROPERTY VALUE ${CIVETWEB_LUA_VERSION})
-    message(STATUS "Lua Version - ${CIVETWEB_LUA_VERSION}")
     mark_as_advanced(CIVETWEB_LUA_VERSION)
 
     # Lua Verification Hash
@@ -131,7 +106,6 @@ if (CIVETWEB_ENABLE_LUA)
   set(CIVETWEB_LUA_FILESYSTEM_VERSION 1.6.3 CACHE STRING
     "The version of Lua Filesystem to build and include statically")
   set_property(CACHE CIVETWEB_LUA_FILESYSTEM_VERSION PROPERTY VALUE ${CIVETWEB_LUA_FILESYSTEM_VERSION})
-  message(STATUS "Lua Filesystem Version - ${CIVETWEB_LUA_FILESYSTEM_VERSION}")
   mark_as_advanced(CIVETWEB_LUA_FILESYSTEM_VERSION)
 
   # Lua Filesystem Verification Hash
@@ -144,7 +118,6 @@ if (CIVETWEB_ENABLE_LUA)
   set(CIVETWEB_LUA_SQLITE_VERSION 0.9.3 CACHE STRING
     "The version of Lua SQLite to build and include statically")
   set_property(CACHE CIVETWEB_LUA_SQLITE_VERSION PROPERTY VALUE ${CIVETWEB_LUA_SQLITE_VERSION})
-  message(STATUS "Lua SQLite Version - ${CIVETWEB_LUA_SQLITE_VERSION}")
   mark_as_advanced(CIVETWEB_LUA_SQLITE_VERSION)
 
   # Lua SQLite Verification Hash
@@ -157,7 +130,6 @@ if (CIVETWEB_ENABLE_LUA)
   set(CIVETWEB_LUA_XML_VERSION 1.8.0 CACHE STRING
     "The version of Lua XML to build and include statically")
   set_property(CACHE CIVETWEB_LUA_XML_VERSION PROPERTY VALUE ${CIVETWEB_LUA_XML_VERSION})
-  message(STATUS "Lua XML Version - ${CIVETWEB_LUA_XML_VERSION}")
   mark_as_advanced(CIVETWEB_LUA_XML_VERSION)
 
   # Lua XML Verification Hash
@@ -170,7 +142,6 @@ if (CIVETWEB_ENABLE_LUA)
   set(CIVETWEB_SQLITE_VERSION 3.8.9 CACHE STRING
     "The version of SQLite to build and include statically")
   set_property(CACHE CIVETWEB_SQLITE_VERSION PROPERTY VALUE ${CIVETWEB_SQLITE_VERSION})
-  message(STATUS "SQLite Version - ${CIVETWEB_SQLITE_VERSION}")
   mark_as_advanced(CIVETWEB_SQLITE_VERSION)
 
   # SQLite Verification Hash
@@ -182,19 +153,14 @@ endif()
 
 # Duktape CGI support
 option(CIVETWEB_ENABLE_DUKTAPE "Enable Duktape CGIs" OFF)
-message(STATUS "Duktape CGI support - ${CIVETWEB_ENABLE_DUKTAPE}")
 
 # SSL support
 option(CIVETWEB_ENABLE_SSL "Enables the secure socket layer" ON)
-message(STATUS "SSL support - ${CIVETWEB_ENABLE_SSL}")
 
 # Dynamically load or link the SSL libraries
 cmake_dependent_option(
   CIVETWEB_ENABLE_SSL_DYNAMIC_LOADING "Dynamically loads the SSL library rather than linking it" ON
   CIVETWEB_ENABLE_SSL OFF)
-if (CIVETWEB_ENABLE_SSL)
-  message(STATUS "Dynamically load SSL libraries - ${CIVETWEB_ENABLE_SSL_DYNAMIC_LOADING}")
-endif()
 
 # Third Party Download location
 set(CIVETWEB_THIRD_PARTY_DIR "${CMAKE_BINARY_DIR}/third_party" CACHE STRING
@@ -207,13 +173,11 @@ if (CIVETWEB_ENABLE_SSL_DYNAMIC_LOADING AND NOT DARWIN AND UNIX)
   set(CIVETWEB_SSL_SSL_LIB "libssl.so" CACHE STRING
     "The name of the SSL library to load")
   set_property(CACHE CIVETWEB_SSL_SSL_LIB PROPERTY VALUE ${CIVETWEB_SSL_SSL_LIB})
-  message(STATUS "SSL Library Name - ${CIVETWEB_SSL_SSL_LIB}")
 
   # Crytography library name
   set(CIVETWEB_SSL_CRYPTO_LIB "libcrypto.so" CACHE STRING
     "The name of the SSL Cryptography library to load")
   set_property(CACHE CIVETWEB_SSL_CRYPTO_LIB PROPERTY VALUE ${CIVETWEB_SSL_CRYPTO_LIB})
-  message(STATUS "SSL Cryptography Library Name - ${CIVETWEB_SSL_CRYPTO_LIB}")
 endif()
 
 # Allow warnings in 3rd party components
@@ -242,7 +206,6 @@ if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 # Configure the C compiler
-message(STATUS "Configuring C Compiler")
 if ("${CIVETWEB_C_STANDARD}" STREQUAL "auto")
   add_c_compiler_flag(-std=c11)
   if (NOT HAVE_C_FLAG_STD_C11)
@@ -277,8 +240,6 @@ add_c_compiler_flag(-pedantic-errors)
 add_c_compiler_flag(-fvisibility=hidden)
 add_c_compiler_flag(-fstack-protector-strong RELEASE)
 add_c_compiler_flag(-flto RELEASE)
-add_c_compiler_flag(-fsanitize=undefined DEBUG)
-add_c_compiler_flag(-fsanitize=address DEBUG)
 if (HAVE_C_FLAG_FSANITIZE_ADDRESS)
   add_c_compiler_flag(-static-asan DEBUG)
 endif()
@@ -311,7 +272,6 @@ add_c_compiler_flag(--coverage COVERAGE)
 
 # Configure the C++ compiler
 if (CIVETWEB_ENABLE_CXX)
-  message(STATUS "Configuring C++ Compiler")
   if ("${CIVETWEB_CXX_STANDARD}" STREQUAL "auto")
     add_cxx_compiler_flag(-std=c++14)
     if (NOT HAVE_CXX_FLAG_STD_CXX14)
@@ -412,7 +372,6 @@ if (BUILD_TESTING)
   set(CIVETWEB_CHECK_VERSION 0.11.0 CACHE STRING
     "The version of Check unit testing framework to build and include statically")
   set_property(CACHE CIVETWEB_CHECK_VERSION PROPERTY VALUE ${CIVETWEB_CHECK_VERSION})
-  message(STATUS "Check Unit Testing Framework Version - ${CIVETWEB_CHECK_VERSION}")
   mark_as_advanced(CIVETWEB_CHECK_VERSION)
 
   # Check unit testing framework Verification Hash
